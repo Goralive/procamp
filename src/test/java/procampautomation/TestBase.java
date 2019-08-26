@@ -1,9 +1,11 @@
 package procampautomation;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
@@ -32,19 +34,20 @@ public class TestBase {
             return;
         }
 
-        driver = new ChromeDriver();
+        ChromeOptions opt = new ChromeOptions();
+        opt.addArguments("--incognito");
+
+        driver = new ChromeDriver(opt);
         wait = new WebDriverWait(driver, 10);
         tlDriver.set(driver);
         log.info("Browser Start");
         driver.manage().window().maximize();
-
         Runtime.getRuntime().addShutdownHook(
                 new Thread(() -> {
                     driver.quit();
                     driver = null;
                     log.info("Browser Closed");
                 }));
-
     }
 
     public void get(String url) {
@@ -112,12 +115,14 @@ public class TestBase {
                 findElement("[id^=doc]:nth-of-type(" + i + ")").click();
                 log.info("Click on " + "[id^=doc]:nth-of-type(" + i + ")");
                 waitUntilElementIsPresent(headerLocator);
-                if (findElement(headerLocator).getText().equalsIgnoreCase(findElement("[id^=doc]:nth-of-type(" + i + ") span").getText())) {
+                if (findElement(headerLocator).getText().equals(findElement("[id^=doc]:nth-of-type(" + i + ") span").getText())) {
                     log.info("Text in header locator: " + findElement(headerLocator).getText() + " : Text in submenu: " + findElement("[id^=doc]:nth-of-type(" + i + ") span").getText());
                     checkText = true;
                 } else {
                     log.info("Text in header and submenu are different ");
+                    log.info("Text in header locator: " + findElement(headerLocator).getText() + " : Text in submenu: " + findElement("[id^=doc]:nth-of-type(" + i + ") span").getText());
                     checkText = false;
+                    break;
                 }
             }
         }

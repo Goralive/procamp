@@ -16,6 +16,7 @@ public class AdminPanelTest extends TestBase {
     @Before
     public void openUrl() {
         get("http://demo.litecart.net/admin/");
+        waitUntilElementIsPresent(loginBtnSelector);
     }
 
     @Test
