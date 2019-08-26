@@ -26,9 +26,9 @@ public class AdminPanelTest extends TestBase {
 
     @Test
     public void login() {
-        driver.findElement(By.cssSelector(loginBtnSelector)).click();
-        waitUntilElementIsPresent(By.cssSelector(sidebarSelector));
-        assertEquals(true, isElementPresent(By.cssSelector(logotypeSelector)));
+        findElement(loginBtnSelector).click();
+        waitUntilElementIsPresent(sidebarSelector);
+        assertEquals(true, isElementPresent(logotypeSelector));
         log.info("Login test finished");
     }
 }

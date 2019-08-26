@@ -9,12 +9,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Set;
+
 public class TestBase {
 
     public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
     public WebDriver driver;
     public WebDriverWait wait;
     public Logger log = LoggerFactory.getLogger(this.getClass().getName());
+
+    public Set<Cookie> cookieSet;
 
 
     @Before
@@ -46,10 +50,14 @@ public class TestBase {
         log.info("Open Url " + url);
     }
 
-    public boolean isElementPresent (By locator) {
+    public WebElement findElement (String selector) {
+        return driver.findElement(By.cssSelector(selector));
+    }
+
+    public boolean isElementPresent(String locator) {
         try {
             log.info("Is element present " + locator);
-            driver.findElement(locator);
+            driver.findElement(By.cssSelector(locator));
             return true;
         } catch (NoSuchElementException ex) {
             log.info("Can't find element " + locator);
@@ -57,13 +65,13 @@ public class TestBase {
         }
     }
 
-    public boolean waitUntilElementIsPresent(By locator) {
+    public boolean waitUntilElementIsPresent(String locator) {
         try {
-            wait.until(ExpectedConditions.presenceOfElementLocated(locator));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(locator)));
             log.info("Wait for element located " + locator);
             return true;
         } catch (TimeoutException e) {
-            log.info("After 10 sec no element is present " + locator);
+            log.info("--- After 10 sec no element is present --- " + locator);
             return false;
         }
     }
@@ -74,19 +82,26 @@ public class TestBase {
             log.info("Wait for element web element " + webElement);
             return true;
         } catch (TimeoutException e) {
-            log.info("After 10 sec no web element is present " + webElement);
+            log.info("--- After 10 sec no web element is present --- " + webElement);
             return false;
         }
     }
 
-   public boolean areElementsPresent (By locator) {
-        log.info("Check elements  " + locator + " size is: " + driver.findElements(locator).size());
-        return driver.findElements(locator).size() > 0;
-   }
+    public boolean areElementsPresent(String locator) {
+        log.info("Check elements  " + locator + " size is: " + driver.findElements(By.cssSelector(locator)).size());
+        return driver.findElements(By.cssSelector(locator)).size() > 0;
+    }
 
-   public void addCookie (String name, String value){
-        log.info("Adding cookie name: " + name + " and value: " + value);
-        driver.manage().addCookie(new Cookie(name,value));
-   }
+    public void addCookie() {
+        for (Cookie cookie : cookieSet) {
+            driver.manage().addCookie(cookie);
+            log.info("Add cookie: " + cookie);
+        }
+    }
+
+    public void getCookie() {
+        cookieSet = driver.manage().getCookies();
+    }
+
 }
 
