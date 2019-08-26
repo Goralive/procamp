@@ -22,7 +22,7 @@ public class AdminPanelTest extends TestBase {
     @Test
     public void adminPageOpened() {
         assertEquals("demo store", driver.getTitle().toLowerCase());
-        log.info("Admin page test is finished");
+        log.info("-- Admin page opened test is finished --");
     }
 
     @Test
@@ -30,6 +30,6 @@ public class AdminPanelTest extends TestBase {
         findElement(loginBtnSelector).click();
         waitUntilElementIsPresent(sidebarSelector);
         assertEquals(true, isElementPresent(logotypeSelector));
-        log.info("Login test finished");
+        log.info("-- Login test is finished --");
     }
 }

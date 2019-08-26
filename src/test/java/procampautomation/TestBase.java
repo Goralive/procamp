@@ -19,7 +19,7 @@ public class TestBase {
     public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<>();
     public WebDriver driver;
     public WebDriverWait wait;
-    public Logger log = LoggerFactory.getLogger(this.getClass().getName());
+    public Logger log = LoggerFactory.getLogger(this.getClass());
 
     public Set<Cookie> cookieSet;
     boolean checkText;
@@ -122,13 +122,13 @@ public class TestBase {
                     log.info("Text in header and submenu are different ");
                     log.info("Text in header locator: " + findElement(headerLocator).getText() + " : Text in submenu: " + findElement("[id^=doc]:nth-of-type(" + i + ") span").getText());
                     checkText = false;
-                    break;
+                    continue;
                 }
             }
         }
         return checkText;
     }
-}
 
+}
 
 
