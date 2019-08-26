@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.List;
 import java.util.Set;
 
 public class TestBase {
@@ -19,6 +20,7 @@ public class TestBase {
     public Logger log = LoggerFactory.getLogger(this.getClass().getName());
 
     public Set<Cookie> cookieSet;
+    boolean checkText;
 
 
     @Before
@@ -50,7 +52,7 @@ public class TestBase {
         log.info("Open Url " + url);
     }
 
-    public WebElement findElement (String selector) {
+    public WebElement findElement(String selector) {
         return driver.findElement(By.cssSelector(selector));
     }
 
@@ -103,5 +105,25 @@ public class TestBase {
         cookieSet = driver.manage().getCookies();
     }
 
+    public boolean checkSubMenu(String listLocator, String headerLocator) {
+        if (areElementsPresent(listLocator)) {
+            List<WebElement> webElementList = driver.findElements(By.cssSelector(listLocator));
+            for (int i = 1; i <= webElementList.size(); i++) {
+                findElement("[id^=doc]:nth-of-type(" + i + ")").click();
+                log.info("Click on " + "[id^=doc]:nth-of-type(" + i + ")");
+                waitUntilElementIsPresent(headerLocator);
+                if (findElement(headerLocator).getText().equalsIgnoreCase(findElement("[id^=doc]:nth-of-type(" + i + ") span").getText())) {
+                    log.info("Text in header locator: " + findElement(headerLocator).getText() + " : Text in submenu: " + findElement("[id^=doc]:nth-of-type(" + i + ") span").getText());
+                    checkText = true;
+                } else {
+                    log.info("Text in header and submenu are different ");
+                    checkText = false;
+                }
+            }
+        }
+        return checkText;
+    }
 }
+
+
 

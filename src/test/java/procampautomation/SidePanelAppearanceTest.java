@@ -36,14 +36,7 @@ public class SidePanelAppearanceTest extends TestBase {
         assertTrue("No appearance menu", isElementPresent(appearanceLocator));
         findElement(appearanceLocator).click();
         assertTrue("No submenu is present", areElementsPresent(submenu));
-        if (areElementsPresent(submenu)) {
-            List<WebElement> webElementList = driver.findElements(By.cssSelector(submenu));
-            for (int i = 1; i <= webElementList.size() ; i++) {
-                findElement("[id^=doc]:nth-of-type(" + i + ")" ).click();
-                waitUntilElementIsPresent(headerLocator);
-                System.out.println(findElement(headerLocator).getText());
-            }
-        }
-
+        assertTrue(checkSubMenu(submenu, headerLocator));
     }
 }
+
