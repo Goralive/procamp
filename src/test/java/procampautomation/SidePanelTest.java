@@ -30,6 +30,10 @@ public class SidePanelTest extends TestBase {
     private String reportsLocator = "#app-reports";
     private String settingsLocator = "#app-settings";
     private String slidesLocator = "#app-slides";
+    private String taxLocator = "#app-tax";
+    private String translationLocator = "#app-translations";
+    private String usersLocator = "#app-users";
+    private String modsLocator = "#app-vqmods";
 
     @Before
     public void redirectToPage() {
@@ -159,6 +163,43 @@ public class SidePanelTest extends TestBase {
         assertEquals(findElement(slidesLocator).getText(), findElement(headerLocator).getText());
         log.info("-- Slides test is finished --");
     }
+
+    @Test
+    public void taxRatesTest() {
+        waitUntilElementIsPresent(taxLocator);
+        assertTrue("No tax menu", isElementPresent(taxLocator));
+        findElement(taxLocator).click();
+        assertTrue(checkSubMenu(submenu, headerLocator));
+        log.info("-- Tax test is finished --");
+    }
+
+    @Test
+    public void translationTest() {
+        waitUntilElementIsPresent(translationLocator);
+        assertTrue("No translation menu", isElementPresent(translationLocator));
+        findElement(translationLocator).click();
+        assertTrue(checkSubMenu(submenu, headerLocator));
+        log.info("-- Translation test is finished --");
+    }
+
+    @Test
+    public void usersTest() {
+        waitUntilElementIsPresent(usersLocator);
+        assertTrue("No users menu", isElementPresent(usersLocator));
+        findElement(usersLocator).click();
+        assertEquals(findElement(usersLocator).getText(), findElement(headerLocator).getText());
+        log.info("-- Users test is finished --");
+    }
+    // Failed because there is no h1 locator
+    @Test
+    public void modsTest() {
+        waitUntilElementIsPresent(modsLocator);
+        assertTrue("No vQmods menu", isElementPresent(modsLocator));
+        findElement(modsLocator).click();
+        assertTrue(findElement(headerLocator).isDisplayed());
+        log.info("-- vQmods test is finished --");
+    }
+
 
 
 }

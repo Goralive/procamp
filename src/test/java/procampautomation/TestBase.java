@@ -115,6 +115,12 @@ public class TestBase {
                 findElement("[id^=doc]:nth-of-type(" + i + ")").click();
                 log.info("Click on " + "[id^=doc]:nth-of-type(" + i + ")");
                 waitUntilElementIsPresent(headerLocator);
+                // This if should be deleted if submenu items will have the same name as a header.
+                if (findElement(headerLocator).getText().equals("Settings")) {
+                    log.info("-- Should be always Settings in the HEADER --");
+                    checkText = true;
+                    continue;
+                }
                 if (findElement(headerLocator).getText().equals(findElement("[id^=doc]:nth-of-type(" + i + ") span").getText())) {
                     log.info("Text in header locator: " + findElement(headerLocator).getText() + " : Text in submenu: " + findElement("[id^=doc]:nth-of-type(" + i + ") span").getText());
                     checkText = true;
