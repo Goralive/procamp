@@ -1,6 +1,5 @@
 package procampautomation;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.NoSuchElementException;
@@ -199,8 +198,5 @@ public class SidePanelTest extends TestBase {
         assertTrue(findElement(headerLocator).isDisplayed());
         log.info("-- vQmods test is finished --");
     }
-
-
-
 }
 

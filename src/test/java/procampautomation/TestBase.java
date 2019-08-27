@@ -1,7 +1,6 @@
 package procampautomation;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -81,17 +80,6 @@ public class TestBase {
         }
     }
 
-    public boolean waitUntilElementIsPresent(WebElement webElement) {
-        try {
-            wait.until(ExpectedConditions.visibilityOf(webElement));
-            log.info("Wait for element web element " + webElement);
-            return true;
-        } catch (TimeoutException e) {
-            log.info("--- After 10 sec no web element is present --- " + webElement);
-            return false;
-        }
-    }
-
     public boolean areElementsPresent(String locator) {
         log.info("Check elements  " + locator + " size is: " + driver.findElements(By.cssSelector(locator)).size());
         return driver.findElements(By.cssSelector(locator)).size() > 0;
@@ -134,7 +122,6 @@ public class TestBase {
         }
         return checkText;
     }
-
 }
 
 

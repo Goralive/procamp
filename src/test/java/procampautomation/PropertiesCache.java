@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * Read properties from file, located in test resources. Used for cookies
+ * Read properties from file, located in test resources. Can be used for locators, cookies, URL, etc...
  */
 public class PropertiesCache {
 
@@ -28,20 +28,3 @@ public class PropertiesCache {
     }
 }
 
-
-
-//TODO Check another impl
-
-//    public void checkSubMenu (String locator) {
-//        findElement(locator).click();
-//        waitUntilElementIsPresent(headerLocator);
-//        areElementsPresent(submenu);
-//        for (WebElement submenuItem : driver.findElements(By.cssSelector(submenu))) {
-//            String tempLocator = "#" + submenuItem.getAttribute("id");
-//            findElement(tempLocator);
-//            log.info("Clicking on item in submenu: " + tempLocator);
-//            wait.until(ExpectedConditions.attributeToBe(headerLocator,"h1",findElement(headerLocator).getText()));
-//            log.info("Head text on the main page: " + findElement(headerLocator).getText());
-//        }
-//
-//    }
