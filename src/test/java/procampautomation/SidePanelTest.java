@@ -17,9 +17,9 @@ public class SidePanelTest extends TestBase {
     String loginBtnSelector = "#box-login button";
     // Locators for all submenu tests
     String sidebarLocator = "#sidebar";
-    String headerLocator = "#main h1";
-    String submenu = "[id^=doc]";
-    String appSubmenu = "[id^=app]";
+    String headerLocator = "div.panel-heading";
+    String submenu = "li.doc";
+    String appSubmenu = "li.app";
     // Locators for Sidebar
 
 
@@ -37,7 +37,7 @@ public class SidePanelTest extends TestBase {
     public void subMenu() {
         waitUntilElementIsPresent(sidebarLocator);
         List<WebElement> webElementList = driver.findElements(By.cssSelector(appSubmenu));
-        for (int i = 1; i <= webElementList.size() + 1; i++) {
+        for (int i = 1; i <= webElementList.size(); i++) {
             findElement(appSubmenu + ":nth-of-type(" + i + ")").click();
             List<WebElement> subElementList = driver.findElements(By.cssSelector(submenu));
             for (int j = 1; j < subElementList.size() + 1; j++) {
