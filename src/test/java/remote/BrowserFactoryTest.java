@@ -4,9 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.Keys;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -15,9 +13,10 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 
 import java.net.MalformedURLException;
 import java.net.URI;
+import java.util.List;
 
 public class BrowserFactoryTest {
-    
+
     //static RemoteWebDriver driver;
     static WebDriver driver;
 
@@ -42,10 +41,18 @@ public class BrowserFactoryTest {
         driver.manage().window().maximize();
         driver.get("http://demo.litecart.net/");
 
-}
+    }
 
     @Test
     public void remoteTest() {
+        List<WebElement> listOfProducts = driver.findElements(By.cssSelector(".product-column"));
+        if (listOfProducts.size() > 0) {
+            listOfProducts.get(0).click();
+        } else {
+            System.out.println("No products");
+        }
+        
+        driver.findElement(By.cssSelector("button.btn-success")).click();
 
     }
 
