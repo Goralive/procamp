@@ -2,6 +2,7 @@ package remote;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.openqa.selenium.*;
@@ -9,6 +10,9 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 import java.net.MalformedURLException;
@@ -19,6 +23,7 @@ public class BrowserFactoryTest {
 
     //static RemoteWebDriver driver;
     static WebDriver driver;
+    static WebDriverWait wait;
 
     @BeforeClass
     public static void start() throws MalformedURLException {
@@ -32,6 +37,7 @@ public class BrowserFactoryTest {
         WebDriverManager.chromedriver().setup();
         driver = new EventFiringWebDriver(new ChromeDriver());
         ((EventFiringWebDriver) driver).register(new WebDriverLogger());
+        wait = new WebDriverWait(driver,10);
 //
 //    driver = new RemoteWebDriver(
 //            URI.create("http://192.168.56.102:4444/wd/hub").toURL(),
@@ -51,8 +57,16 @@ public class BrowserFactoryTest {
         } else {
             System.out.println("No products");
         }
-        
+
+        Select drbSize = new Select(driver.findElement(By.name("options[Size]")));
+        drbSize.selectByValue("Large");
         driver.findElement(By.cssSelector("button.btn-success")).click();
+        wait.until(ExpectedConditions.attributeToBe(By.cssSelector("div.badge.quantity"),"innerText","1"));
+        driver.findElement(By.id("cart")).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.name("remove_cart_item")));
+        driver.findElement(By.name("remove_cart_item")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("p > em")));
+        Assert.assertEquals("There are no items in your cart.",driver.findElement(By.cssSelector("p > em")).getText());
 
     }
 
